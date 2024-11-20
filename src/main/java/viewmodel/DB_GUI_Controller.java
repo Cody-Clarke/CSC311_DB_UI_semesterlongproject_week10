@@ -1,9 +1,12 @@
 package viewmodel;
 
+import com.azure.storage.blob.BlobClient;
 import dao.DbConnectivityClass;
+import dao.StorageUploader;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +25,10 @@ import model.Person;
 import service.MyLogger;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -48,9 +54,47 @@ public class DB_GUI_Controller implements Initializable {
     private Button btnAdd;
     @FXML
     private Button btnEdit;
+    @FXML
+    private ProgressBar progressBar;
+
+    final String firstName_regex = "[A-Za-z]{2,25}";
+    final String lastName_regex = "[A-Za-z]{2,25}";
+    final String email_regex = "(\\w+)@(Farmingdale).(edu)";
+
+
+    public boolean checkFirstName() {
+        String name = first_name.getText();
+        boolean isValid = name.matches(firstName_regex);
+        if (!isValid) {
+//            msg +=  "Invalid first name\n";
+        }
+        return isValid;
+    }
+    public boolean checkLastName() {
+        String lastName = last_name.getText();
+        boolean isValid = lastName.matches(lastName_regex);
+        if (!isValid) {
+//            msg +=  "Invalid last name\n";
+        }
+        return isValid;
+    }
+    public boolean checkEmail() {
+        String email1 = email.getText();
+        boolean isValid = email1.matches(email_regex);
+        if (!isValid) {
+           // msg +=  "Invalid email\n";
+        }
+        return isValid;
+    }
+
+
+
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         try {
             tv_id.setCellValueFactory(new PropertyValueFactory<>("id"));
             tv_fn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
@@ -59,18 +103,24 @@ public class DB_GUI_Controller implements Initializable {
             tv_major.setCellValueFactory(new PropertyValueFactory<>("major"));
             tv_email.setCellValueFactory(new PropertyValueFactory<>("email"));
             tv.setItems(data);
-
+            // Disable "Edit" "Delete" and "Add" buttons initially
             btnEdit.setDisable(true);
             btnDelete.setDisable(true);
+            btnAdd.setDisable(true);
 
-
-
+            // Add listener to enable buttons when an item is selected
+            tv.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                btnEdit.setDisable(newValue == null);
+                btnDelete.setDisable(newValue == null);
+            });
 
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+
 
     @FXML
     protected void addNewRecord() {
@@ -131,28 +181,29 @@ public class DB_GUI_Controller implements Initializable {
     @FXML
     protected void editRecord() {
 
+            Person p = tv.getSelectionModel().getSelectedItem();
+            int index = data.indexOf(p);
+            Person p2 = new Person(index + 1, first_name.getText(), last_name.getText(), department.getText(),
+                    major.getText(), email.getText(), imageURL.getText());
+            cnUtil.editUser(p.getId(), p2);
+            data.remove(p);
+            data.add(index, p2);
+            tv.getSelectionModel().select(index);
 
-
-
-        Person p = tv.getSelectionModel().getSelectedItem();
-        int index = data.indexOf(p);
-        Person p2 = new Person(index + 1, first_name.getText(), last_name.getText(), department.getText(),
-                major.getText(), email.getText(),  imageURL.getText());
-        cnUtil.editUser(p.getId(), p2);
-        data.remove(p);
-        data.add(index, p2);
-        tv.getSelectionModel().select(index);
 
 
     }
 
     @FXML
     protected void deleteRecord() {
-        Person p = tv.getSelectionModel().getSelectedItem();
-        int index = data.indexOf(p);
-        cnUtil.deleteRecord(p);
-        data.remove(index);
-        tv.getSelectionModel().select(index);
+        if(tv.getSelectionModel().getSelectedItem()!=null) {
+            btnDelete.setDisable(false);
+            Person p = tv.getSelectionModel().getSelectedItem();
+            int index = data.indexOf(p);
+            cnUtil.deleteRecord(p);
+            data.remove(index);
+            tv.getSelectionModel().select(index);
+        }
     }
 
     @FXML
@@ -160,7 +211,40 @@ public class DB_GUI_Controller implements Initializable {
         File file = (new FileChooser()).showOpenDialog(img_view.getScene().getWindow());
         if (file != null) {
             img_view.setImage(new Image(file.toURI().toString()));
+            Task<Void> uploadTask = createUploadTask(file, progressBar);
+            progressBar.progressProperty().bind(uploadTask.progressProperty());
+            new Thread(uploadTask).start();
         }
+    }
+
+    private Task<Void> createUploadTask(File file, ProgressBar progressBar) {
+        return new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                StorageUploader store = new StorageUploader();
+                BlobClient blobClient = store.getContainerClient().getBlobClient(file.getName());
+                long fileSize = Files.size(file.toPath());
+                long uploadedBytes = 0;
+
+                try (FileInputStream fileInputStream = new FileInputStream(file);
+                     OutputStream blobOutputStream = blobClient.getBlockBlobClient().getBlobOutputStream()) {
+
+                    byte[] buffer = new byte[1024 * 1024]; // 1 MB buffer size
+                    int bytesRead;
+
+                    while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+                        blobOutputStream.write(buffer, 0, bytesRead);
+                        uploadedBytes += bytesRead;
+
+                        // Calculate and update progress as a percentage
+                        int progress = (int) ((double) uploadedBytes / fileSize * 100);
+                        updateProgress(progress, 100);
+                    }
+                }
+
+                return null;
+            }
+        };
     }
 
     @FXML
