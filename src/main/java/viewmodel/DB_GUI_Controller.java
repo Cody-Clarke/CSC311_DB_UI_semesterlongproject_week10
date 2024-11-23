@@ -29,7 +29,6 @@ import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.nio.file.Files;
-import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -65,6 +64,8 @@ public class DB_GUI_Controller implements Initializable {
     private MenuItem ClearItem;
     @FXML
     private MenuItem CopyItem;
+    @FXML
+    private ComboBox<Major> majorComboBox;
 
 
     final String firstName_regex = "[A-Za-z]{2,25}";
@@ -96,6 +97,7 @@ public class DB_GUI_Controller implements Initializable {
         }
         return isValid;
     }
+
 
 
 
@@ -134,19 +136,28 @@ public class DB_GUI_Controller implements Initializable {
             first_name.textProperty().addListener((observable, oldValue, newValue) -> updateAddButtonState());
             last_name.textProperty().addListener((observable, oldValue, newValue) -> updateAddButtonState());
             department.textProperty().addListener((observable, oldValue, newValue) -> updateAddButtonState());
-            major.textProperty().addListener((observable, oldValue, newValue) -> updateAddButtonState());
+            majorComboBox.valueProperty().addListener((observable, oldValue, newValue) -> updateAddButtonState());
             email.textProperty().addListener((observable, oldValue, newValue) -> updateAddButtonState());
             imageURL.textProperty().addListener((observable, oldValue, newValue) -> updateAddButtonState());
+
+            majorComboBox.setItems(FXCollections.observableArrayList(Major.values()));
+            majorComboBox.getSelectionModel().selectFirst();
+
+
+
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
+
+
     private void updateAddButtonState() {
         // Enable Add button only if all fields are valid
         boolean isValidForm = checkFirstName() && checkLastName() && checkEmail() &&
-                !department.getText().isEmpty() && !major.getText().isEmpty() &&
+                !department.getText().isEmpty() && !majorComboBox.getValue().toString().isEmpty()&&
                 !imageURL.getText().isEmpty();
         addBtn.setDisable(!isValidForm);  // Disable or enable based on validity
 
@@ -166,11 +177,11 @@ public class DB_GUI_Controller implements Initializable {
     protected void addNewRecord() {
 
         if(checkFirstName() && checkLastName() && checkEmail() &&
-                !department.getText().isEmpty() && !major.getText().isEmpty() &&
+                !department.getText().isEmpty() && !majorComboBox.getValue().toString().isEmpty() &&
                 !imageURL.getText().isEmpty()) {
 
             Person p = new Person(first_name.getText(), last_name.getText(), department.getText(),
-                    major.getText(), email.getText(), imageURL.getText());
+                    majorComboBox.getValue().toString(), email.getText(), imageURL.getText());
             cnUtil.insertUser(p);
             cnUtil.retrieveId(p);
             p.setId(cnUtil.retrieveId(p));
@@ -186,7 +197,7 @@ public class DB_GUI_Controller implements Initializable {
         first_name.setText("");
         last_name.setText("");
         department.setText("");
-        major.setText("");
+//        major.setText("");
         email.setText("");
         imageURL.setText("");
     }
@@ -227,13 +238,13 @@ public class DB_GUI_Controller implements Initializable {
     protected void editRecord() {
 
         if(checkFirstName() && checkLastName() && checkEmail() &&
-                !department.getText().isEmpty() && !major.getText().isEmpty() &&
+                !department.getText().isEmpty() && !majorComboBox.getValue().toString().isEmpty() &&
                 !imageURL.getText().isEmpty()) {
 
             Person p = tv.getSelectionModel().getSelectedItem();
             int index = data.indexOf(p);
             Person p2 = new Person(index + 1, first_name.getText(), last_name.getText(), department.getText(),
-                    major.getText(), email.getText(), imageURL.getText());
+                    majorComboBox.getValue().toString(), email.getText(), imageURL.getText());
             cnUtil.editUser(p.getId(), p2);
             data.remove(p);
             data.add(index, p2);
@@ -307,7 +318,7 @@ public class DB_GUI_Controller implements Initializable {
         first_name.setText(p.getFirstName());
         last_name.setText(p.getLastName());
         department.setText(p.getDepartment());
-        major.setText(p.getMajor());
+        majorComboBox.setValue(Major.valueOf((p.getMajor())));
         email.setText(p.getEmail());
         imageURL.setText(p.getImageURL());
     }
