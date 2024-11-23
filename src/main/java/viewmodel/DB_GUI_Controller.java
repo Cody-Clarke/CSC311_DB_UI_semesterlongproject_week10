@@ -4,6 +4,8 @@ import com.azure.storage.blob.BlobClient;
 import dao.DbConnectivityClass;
 import dao.StorageUploader;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -35,7 +37,7 @@ import java.util.ResourceBundle;
 public class DB_GUI_Controller implements Initializable {
 
     @FXML
-    TextField first_name, last_name, department, major, email, imageURL;
+    TextField first_name, last_name, department, email, imageURL;
     @FXML
     ImageView img_view;
     @FXML
@@ -66,18 +68,22 @@ public class DB_GUI_Controller implements Initializable {
     private MenuItem CopyItem;
     @FXML
     private ComboBox<Major> majorComboBox;
+    @FXML
+    private TextArea msg;
+    private String msg1;
 
 
     final String firstName_regex = "[A-Za-z]{2,25}";
     final String lastName_regex = "[A-Za-z]{2,25}";
-    final String email_regex = "(\\w+)@(Farmingdale).(edu)";
+    final String department_regex = "((Business)|(CS)|(CPIS))";
+    final String email_regex = "(\\w+)@(\\w+).(edu|com|net)";
 
 
     public boolean checkFirstName() {
         String name = first_name.getText();
         boolean isValid = name.matches(firstName_regex);
         if (!isValid) {
-//            msg +=  "Invalid first name\n";
+            msg1+="Invalid first name\n";
         }
         return isValid;
     }
@@ -85,7 +91,15 @@ public class DB_GUI_Controller implements Initializable {
         String lastName = last_name.getText();
         boolean isValid = lastName.matches(lastName_regex);
         if (!isValid) {
-//            msg +=  "Invalid last name\n";
+            msg1+= "Invalid last name\n";
+        }
+        return isValid;
+    }
+    public boolean checkDepartment() {
+        String name = department.getText();
+        boolean isValid = name.matches(department_regex);
+        if (!isValid) {
+            msg1+= "Invalid department name\n";
         }
         return isValid;
     }
@@ -93,7 +107,7 @@ public class DB_GUI_Controller implements Initializable {
         String email1 = email.getText();
         boolean isValid = email1.matches(email_regex);
         if (!isValid) {
-           // msg +=  "Invalid email\n";
+           msg1+= "Invalid email\n";
         }
         return isValid;
     }
@@ -143,6 +157,65 @@ public class DB_GUI_Controller implements Initializable {
             majorComboBox.setItems(FXCollections.observableArrayList(Major.values()));
             majorComboBox.getSelectionModel().selectFirst();
 
+            //Event handling when text value changes
+            first_name.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable,
+                                    String oldValue, String newValue) {
+                    msg1 = "";
+                    checkFirstName();
+                    msg.setText(msg1);
+                }
+            });
+
+            last_name.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable,
+                                    String oldValue, String newValue) {
+                    msg1 = "";
+                    checkFirstName();
+                    checkLastName();
+                    msg.setText(msg1);
+                }
+            });
+
+            department.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable,
+                                    String oldValue, String newValue) {
+                    msg1 = "";
+                    checkFirstName();
+                    checkLastName();
+                    checkDepartment();
+                    msg.setText(msg1);
+                }
+            });
+            email.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable,
+                                    String oldValue, String newValue) {
+                    msg1 = "";
+                    checkFirstName();
+                    checkLastName();
+                    checkDepartment();
+                    checkEmail();
+                    msg.setText(msg1);
+                }
+            });
+            imageURL.textProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable,
+                                    String oldValue, String newValue) {
+                    msg1 = "";
+                    checkFirstName();
+                    checkLastName();
+                    checkDepartment();
+                    checkEmail();
+
+                    msg.setText(msg1);
+                }
+            });
+
 
 
 
@@ -175,19 +248,29 @@ public class DB_GUI_Controller implements Initializable {
 
     @FXML
     protected void addNewRecord() {
+        Alert regAlert = new Alert(Alert.AlertType.INFORMATION);
+        msg1 = "";
+        checkFirstName();
+        checkLastName();
+        checkEmail();
+        msg.setText(msg1);
 
-        if(checkFirstName() && checkLastName() && checkEmail() &&
-                !department.getText().isEmpty() && !majorComboBox.getValue().toString().isEmpty() &&
-                !imageURL.getText().isEmpty()) {
+        if (checkFirstName() && checkLastName() && checkEmail() &&
+                    !department.getText().isEmpty() && !majorComboBox.getValue().toString().isEmpty() &&
+                    !imageURL.getText().isEmpty()) {
+                regAlert.setContentText("Successfully Registered");
+                regAlert.show();
 
-            Person p = new Person(first_name.getText(), last_name.getText(), department.getText(),
-                    majorComboBox.getValue().toString(), email.getText(), imageURL.getText());
-            cnUtil.insertUser(p);
-            cnUtil.retrieveId(p);
-            p.setId(cnUtil.retrieveId(p));
-            data.add(p);
-            clearForm();
-        }
+
+                Person p = new Person(first_name.getText(), last_name.getText(), department.getText(),
+                        majorComboBox.getValue().toString(), email.getText(), imageURL.getText());
+                cnUtil.insertUser(p);
+                cnUtil.retrieveId(p);
+                p.setId(cnUtil.retrieveId(p));
+                data.add(p);
+                clearForm();
+            }
+
 
 
     }
@@ -197,7 +280,6 @@ public class DB_GUI_Controller implements Initializable {
         first_name.setText("");
         last_name.setText("");
         department.setText("");
-//        major.setText("");
         email.setText("");
         imageURL.setText("");
     }

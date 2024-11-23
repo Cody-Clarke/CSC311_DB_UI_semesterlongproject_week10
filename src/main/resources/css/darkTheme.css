@@ -16,7 +16,15 @@
     -fx-pref-height: 40px;
     -fx-text-fill: white;
 }
+.text-area{
+    -fx-font: "Arial";
+    -fx-font-size: 15px;
+    -fx-text-fill: #f83030;
+    -fx-font-style: Bold;
+    -fx-background-color: #424242;
 
+
+}
 .left_pane {
     -fx-background-color: #313131;
     -fx-pref-width: 130px;
@@ -94,6 +102,13 @@
 .table-row-cell:selected {
    -fx-background-color: whitesmoke;
    -fx-text-background-color:  #aa22CC;
+}
+
+.table-row-cell:filled .cell{
+    -fx-border-width: 0.5;
+}
+.table-row-cell:empty .cell{
+    -fx-border-width: 0;
 }
 
 /* scroll bar starts here */

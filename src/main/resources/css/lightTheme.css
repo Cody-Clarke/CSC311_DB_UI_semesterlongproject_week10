@@ -11,6 +11,14 @@
     -fx-pref-height: 50px;
 }
 
+.text-area{
+    -fx-font: "Arial";
+    -fx-font-size: 15px;
+    -fx-text-fill: #f83030;
+    -fx-font-style: Bold;
+
+}
+
 .left_pane {
     -fx-background-color: #fbfbfa;
     -fx-pref-width: 130px;
