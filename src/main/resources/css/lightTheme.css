@@ -49,7 +49,7 @@
 }
 
 .image_view{
-    -fx-background-color: yellow;
+    -fx-background-color: #05d5ea;
     -fx-border-color: black;
     -fx-border-width: 2;
 }
@@ -118,3 +118,5 @@
 	-fx-background-radius: 2em;
 
 }
+.
+

@@ -1,5 +1,6 @@
 package viewmodel;
 
+
 import com.azure.storage.blob.BlobClient;
 import dao.DbConnectivityClass;
 import dao.StorageUploader;
@@ -26,13 +27,10 @@ import javafx.stage.Stage;
 import model.Person;
 import service.MyLogger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class DB_GUI_Controller implements Initializable {
 
@@ -62,10 +60,6 @@ public class DB_GUI_Controller implements Initializable {
     private MenuItem editItem;
     @FXML
     private MenuItem deleteItem;
-    @FXML
-    private MenuItem ClearItem;
-    @FXML
-    private MenuItem CopyItem;
     @FXML
     private ComboBox<Major> majorComboBox;
     @FXML
@@ -240,8 +234,6 @@ public class DB_GUI_Controller implements Initializable {
         // Disable the menu items if no record is selected
         editItem.setDisable(!isSelected);
         deleteItem.setDisable(!isSelected);
-        ClearItem.setDisable(!isSelected);
-        CopyItem.setDisable(!isSelected);
     }
 
 
@@ -472,6 +464,72 @@ public class DB_GUI_Controller implements Initializable {
             this.fname = name;
             this.lname = date;
             this.major = venue;
+        }
+    }
+
+
+    private void showAlert(Alert.AlertType alertType, String title, String content) {
+        Alert alert = new Alert(alertType, content, ButtonType.OK);
+        alert.setTitle(title);
+        alert.showAndWait();
+    }
+
+    @FXML
+    protected void importCSV(ActionEvent event) {
+        // Create a file chooser for CSV files
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showOpenDialog(menuBar.getScene().getWindow());
+
+        if (file != null) {
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                ObservableList<Person> importedData = FXCollections.observableArrayList();
+
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    // Assuming CSV columns: id, firstName, lastName, department, major, email, imageURL
+                    if (values.length == 7) {
+                        Person person = new Person(Integer.parseInt(values[0]), values[1], values[2], values[3],
+                                values[4], values[5], values[6]);
+                        importedData.add(person);
+                    }
+                }
+
+                // Set the imported data to the TableView
+                tv.setItems(importedData);
+                showAlert(Alert.AlertType.INFORMATION, "Import Successful", "CSV file has been imported.");
+            } catch (IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Import Failed", "An error occurred while importing the CSV file.");
+            }
+        }
+    }
+    @FXML
+    protected void exportCSV(ActionEvent event) {
+        // Open a file chooser to save the CSV file
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+        File file = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
+
+        if (file != null) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+                // Write the header row
+                writer.write("id,firstName,lastName,department,major,email,imageURL");
+                writer.newLine();
+
+                // Write each row from the TableView
+                for (Person person : tv.getItems()) {
+                    writer.write(String.format("%d,%s,%s,%s,%s,%s,%s",
+                            person.getId(), person.getFirstName(), person.getLastName(),
+                            person.getDepartment(), person.getMajor(), person.getEmail(),
+                            person.getImageURL()));
+                    writer.newLine();
+                }
+
+                showAlert(Alert.AlertType.INFORMATION, "Export Successful", "Data has been exported to CSV.");
+            } catch (IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Export Failed", "An error occurred while exporting the data.");
+            }
         }
     }
 
