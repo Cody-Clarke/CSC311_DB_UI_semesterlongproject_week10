@@ -15,10 +15,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewmodel.LoginController">
    <children>
-      <ImageView fitHeight="751.0" fitWidth="1100.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView blendMode="MULTIPLY" fitHeight="751.0" fitWidth="1100.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/fscLogin.jpeg" />
          </image>
@@ -66,7 +65,7 @@
                <children>
                     <Label id="emailLabel" fx:id="usernameLabel" alignment="TOP_CENTER" contentDisplay="TOP" focusTraversable="false" prefHeight="23.0" prefWidth="156.0" style="-fx-text-fill: white;" styleClass="login_label" text="Username" textAlignment="RIGHT" textFill="#141414">
                         <font>
-                            <Font name="System Bold" size="18.0" />
+                            <Font name="Arial Bold" size="18.0" />
                         </font>
                     </Label>
                </children>
@@ -80,7 +79,7 @@
                <children>
                     <Label id="passwordLabel" fx:id="passwordLabel" alignment="CENTER" contentDisplay="TOP" prefHeight="23.0" prefWidth="154.0" style="-fx-text-fill: white;" styleClass="login_label" text="Password" textAlignment="RIGHT">
                         <font>
-                            <Font name="System Bold" size="18.0" />
+                            <Font name="Arial Bold" size="18.0" />
                         </font>
                     </Label>
                </children>

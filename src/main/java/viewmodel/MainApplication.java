@@ -56,7 +56,7 @@ public class MainApplication extends Application {
             fadeOut.setFromValue(1);
             fadeOut.setToValue(0);
             fadeOut.setOnFinished(e -> {
-                Scene newScene = new Scene(newRoot, 1100, 725);
+                Scene newScene = new Scene(newRoot, 1100, 733);
                 primaryStage.setScene(newScene);
                 primaryStage.show();
             });
