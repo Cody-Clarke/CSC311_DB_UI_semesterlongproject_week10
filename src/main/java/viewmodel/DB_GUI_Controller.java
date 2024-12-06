@@ -496,7 +496,13 @@ public class DB_GUI_Controller implements Initializable {
                 String line;
                 ObservableList<Person> importedData = FXCollections.observableArrayList();
 
+                boolean firstLine = true;
+
                 while ((line = br.readLine()) != null) {
+                    if (firstLine) {
+                        firstLine = false;
+                        continue;  // Skip the first line (header row)
+                    }
                     String[] values = line.split(",");
                     if (values.length == 7) {
                         Person person = new Person(Integer.parseInt(values[0]), values[1], values[2], values[3],

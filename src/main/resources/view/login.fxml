@@ -5,8 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -15,26 +13,22 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewmodel.LoginController">
+<AnchorPane prefHeight="663.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="viewmodel.LoginController">
    <children>
-      <ImageView blendMode="MULTIPLY" fitHeight="751.0" fitWidth="1100.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/fscLogin.jpeg" />
-         </image>
-      </ImageView>
       <GridPane fx:id="rootpane" alignment="CENTER" layoutY="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="725.0" prefWidth="1100.0" styleClass="grid_pane">
+
           <columnConstraints>
-              <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="10.0" prefWidth="165.0" />
-              <ColumnConstraints hgrow="SOMETIMES" maxWidth="401.0" minWidth="10.0" prefWidth="207.0" />
-              <ColumnConstraints hgrow="SOMETIMES" maxWidth="461.0" minWidth="10.0" prefWidth="310.0" />
-              <ColumnConstraints hgrow="SOMETIMES" maxWidth="503.0" minWidth="10.0" prefWidth="272.0" />
-              <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.0" minWidth="10.0" prefWidth="139.99992675781255" />
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="298.0" minWidth="10.0" prefWidth="226.0" />
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="401.0" minWidth="10.0" prefWidth="179.0" />
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="461.0" minWidth="10.0" prefWidth="240.0" />
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="503.0" minWidth="10.0" prefWidth="307.0" />
+              <ColumnConstraints hgrow="SOMETIMES" maxWidth="320.0" minWidth="10.0" prefWidth="148.0" />
           </columnConstraints>
           <rowConstraints>
               <RowConstraints maxHeight="155.0" minHeight="10.0" prefHeight="134.0" vgrow="SOMETIMES" />
               <RowConstraints maxHeight="159.39998779296874" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
-              <RowConstraints maxHeight="252.5" minHeight="0.0" prefHeight="222.5" vgrow="SOMETIMES" />
-              <RowConstraints maxHeight="250.0" minHeight="0.0" prefHeight="49.5" vgrow="SOMETIMES" />
+              <RowConstraints maxHeight="266.0" minHeight="0.0" prefHeight="185.5" vgrow="SOMETIMES" />
+              <RowConstraints maxHeight="250.0" minHeight="0.0" prefHeight="80.5" vgrow="SOMETIMES" />
               <RowConstraints maxHeight="277.0" minHeight="0.0" prefHeight="50.0" vgrow="SOMETIMES" />
               <RowConstraints maxHeight="284.0000122070312" minHeight="10.0" prefHeight="63.5" vgrow="SOMETIMES" />
               <RowConstraints maxHeight="277.0" minHeight="0.0" prefHeight="63.0" vgrow="SOMETIMES" />
@@ -47,71 +41,57 @@
                       <Insets />
                   </GridPane.margin>
                   <children>
-                      <Label alignment="CENTER" prefHeight="138.0" prefWidth="1100.0" style="-fx-border-color: BLACK;" styleClass="login_title" text="STUDENT REGISTRATION&#10;" textAlignment="CENTER" textFill="#141414" wrapText="true">
+                      <Label alignment="CENTER" prefHeight="138.0" prefWidth="1100.0" style="-fx-border-color: BLACK;" styleClass="login_title" text="UNIVERSITY MESSENGER REGISTRATION&#10;" textAlignment="CENTER" textFill="#141414" wrapText="true">
                           <font>
                               <Font name="System Bold" size="51.0" />
                           </font>
-                     <graphic>
-                        <ImageView fitHeight="133.0" fitWidth="173.0">
-                           <image>
-                              <Image url="@../images/fsclogo.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
                       </Label>
                   </children>
               </HBox>
               <VBox alignment="CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                    <Label id="emailLabel" fx:id="usernameLabel" alignment="TOP_CENTER" contentDisplay="TOP" focusTraversable="false" prefHeight="23.0" prefWidth="156.0" style="-fx-text-fill: white;" styleClass="login_label" text="Username" textAlignment="RIGHT" textFill="#141414">
-                        <font>
-                            <Font name="Arial Bold" size="18.0" />
-                        </font>
-                    </Label>
-               </children>
-              </VBox>
+                  <VBox prefHeight="599.0" prefWidth="490.0" />
+               </children></VBox>
               <VBox alignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <children>
-                      <TextField id="emailTextField" fx:id="usernameTextField" prefHeight="28.0" prefWidth="400.0" promptText="email_id@domain.edu" style="-fx-border-color: BLACK;" styleClass="login_text_field" />
-               </children>
-            </VBox>
-              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
-               <children>
-                    <Label id="passwordLabel" fx:id="passwordLabel" alignment="CENTER" contentDisplay="TOP" prefHeight="23.0" prefWidth="154.0" style="-fx-text-fill: white;" styleClass="login_label" text="Password" textAlignment="RIGHT">
+                    <Label id="emailLabel" fx:id="usernameLabel" alignment="TOP_CENTER" contentDisplay="TOP" focusTraversable="false" prefHeight="23.0" prefWidth="156.0" style="-fx-text-fill: white;" styleClass="login_label" text="Username" textAlignment="CENTER" textFill="#141414">
                         <font>
                             <Font name="Arial Bold" size="18.0" />
                         </font>
                     </Label>
-               </children>
-              </VBox>
-              <VBox alignment="CENTER" prefHeight="601.0" prefWidth="723.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               </children></VBox>
+              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+              <VBox alignment="CENTER" prefHeight="601.0" prefWidth="723.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
                <children>
                       <PasswordField fx:id="passwordField" style="-fx-border-color: BLACK;" styleClass="login_password_field" />
-               </children>
-            </VBox>
-              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
-                  <children>
-                      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                     <children>
-                          <Button fx:id="loginBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="208.0" style="-fx-background-color: Green; -fx-border-color: BLACK;" styleClass="login_button" text="Login" textAlignment="CENTER" textFill="WHITE">
-                              <font>
-                                  <Font name="System Bold" size="18.0" />
-                              </font>
-                          </Button>
-                     </children>
-                  </HBox>
-                  </children>
-              </VBox>
-              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
+               </children></VBox>
+              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
                <children>
-                    <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUp" prefHeight="40.0" prefWidth="210.0" style="-fx-background-color: RED; -fx-border-color: BLACK;" styleClass="login_button" text="Sign Up" textFill="WHITE">
+                    <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUp" prefHeight="40.0" prefWidth="210.0" style="-fx-background-color: #5c5a5a; -fx-border-color: BLACK;" styleClass="login_button" text="Sign Up" textFill="WHITE">
                         <font>
                             <Font name="System Bold" size="15.0" />
                         </font>
                     </Button>
+               </children></HBox>
+              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+               <children>
+                    <Label id="passwordLabel" fx:id="passwordLabel" alignment="CENTER" contentDisplay="TOP" prefHeight="23.0" prefWidth="154.0" style="-fx-text-fill: white;" styleClass="login_label" text="Password" textAlignment="CENTER">
+                        <font>
+                            <Font name="Arial Bold" size="18.0" />
+                        </font>
+                    </Label>
+               </children></HBox>
+                <TextField id="emailTextField" fx:id="usernameTextField" prefHeight="28.0" prefWidth="400.0" promptText="email_id@domain.edu" style="-fx-border-color: BLACK;" styleClass="login_text_field" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
+               <children>
+                    <Button fx:id="loginBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="208.0" style="-fx-background-color:#b470fa; -fx-border-color: BLACK;" styleClass="login_button" text="Login" textAlignment="CENTER" textFill="WHITE">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Button>
                </children>
             </HBox>
-              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="4" />
           </children>
       </GridPane>
    </children>

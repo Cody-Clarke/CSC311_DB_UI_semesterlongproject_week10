@@ -17,23 +17,17 @@ import javafx.util.Duration;
 
 public class LoginController {
 
-
+    Image image = new Image(getClass().getResource("/images/profile.png").toExternalForm());
     @FXML
     private GridPane rootpane;
     public void initialize() {
-        rootpane.setBackground(new Background(
-                        createImage("https://edencoding.com/wp-content/uploads/2021/03/layer_06_1920x1080.png"),
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
-                )
-        );
+        rootpane.setBackground(new Background(new BackgroundImage(new Image(getClass().getResource("/images/fscLogin.jpeg").toExternalForm()),BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT,
+                new BackgroundPosition(Side.LEFT, 0, true, Side.BOTTOM, 0, true),
+                new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true))));
 
 
         rootpane.setOpacity(0);
-        FadeTransition fadeOut2 = new FadeTransition(Duration.seconds(10), rootpane);
+        FadeTransition fadeOut2 = new FadeTransition(Duration.seconds(3), rootpane);
         fadeOut2.setFromValue(0);
         fadeOut2.setToValue(1);
         fadeOut2.play();
@@ -45,11 +39,12 @@ public class LoginController {
                 new BackgroundPosition(Side.LEFT, 0, true, Side.BOTTOM, 0, true),
                 new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true));
     }
+
     @FXML
     public void login(ActionEvent actionEvent) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/view/db_interface_gui.fxml"));
-            Scene scene = new Scene(root, 900, 600);
+            Scene scene = new Scene(root, 925 , 650);
             scene.getStylesheets().add(getClass().getResource("/css/lightTheme.css").toExternalForm());
             Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(scene);
