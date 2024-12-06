@@ -59,7 +59,7 @@ public class DB_GUI_Controller implements Initializable {
     @FXML
     private MenuItem editItem;
     @FXML
-    private MenuItem deleteItem;
+    private MenuItem deleteItem, ClearItem, CopyItem;
     @FXML
     private ComboBox<Major> majorComboBox;
     @FXML
@@ -138,6 +138,7 @@ public class DB_GUI_Controller implements Initializable {
 
                 // Update menu items (if applicable, for example)
                 updateMenuState(isSelected);
+
             });
 
             // Add listener to form fields to enable/disable the "Add" button
@@ -339,6 +340,15 @@ public class DB_GUI_Controller implements Initializable {
             tv.getSelectionModel().select(index);
 
     }
+    @FXML
+    private void copyForm(){
+        first_name.setText(tv.getSelectionModel().getSelectedItem().getFirstName());
+        last_name.setText(tv.getSelectionModel().getSelectedItem().getLastName());
+        department.setText(tv.getSelectionModel().getSelectedItem().getDepartment());
+        majorComboBox.setValue(Major.valueOf(tv.getSelectionModel().getSelectedItem().getMajor()));
+        email.setText(tv.getSelectionModel().getSelectedItem().getEmail());
+        imageURL.setText(tv.getSelectionModel().getSelectedItem().getImageURL());
+    }
 
     @FXML
     protected void showImage() {
@@ -488,7 +498,6 @@ public class DB_GUI_Controller implements Initializable {
 
                 while ((line = br.readLine()) != null) {
                     String[] values = line.split(",");
-                    // Assuming CSV columns: id, firstName, lastName, department, major, email, imageURL
                     if (values.length == 7) {
                         Person person = new Person(Integer.parseInt(values[0]), values[1], values[2], values[3],
                                 values[4], values[5], values[6]);
