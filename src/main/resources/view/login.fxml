@@ -27,8 +27,8 @@
           <rowConstraints>
               <RowConstraints maxHeight="155.0" minHeight="10.0" prefHeight="134.0" vgrow="SOMETIMES" />
               <RowConstraints maxHeight="159.39998779296874" minHeight="10.0" prefHeight="59.0" vgrow="SOMETIMES" />
-              <RowConstraints maxHeight="266.0" minHeight="0.0" prefHeight="185.5" vgrow="SOMETIMES" />
-              <RowConstraints maxHeight="250.0" minHeight="0.0" prefHeight="80.5" vgrow="SOMETIMES" />
+              <RowConstraints maxHeight="266.0" minHeight="0.0" prefHeight="221.5" vgrow="SOMETIMES" />
+              <RowConstraints maxHeight="250.0" minHeight="0.0" prefHeight="38.5" vgrow="SOMETIMES" />
               <RowConstraints maxHeight="277.0" minHeight="0.0" prefHeight="50.0" vgrow="SOMETIMES" />
               <RowConstraints maxHeight="284.0000122070312" minHeight="10.0" prefHeight="63.5" vgrow="SOMETIMES" />
               <RowConstraints maxHeight="277.0" minHeight="0.0" prefHeight="63.0" vgrow="SOMETIMES" />
@@ -50,48 +50,50 @@
               </HBox>
               <VBox alignment="CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <children>
-                  <VBox prefHeight="599.0" prefWidth="490.0" />
+                  <VBox alignment="CENTER" prefHeight="78.0" prefWidth="201.0">
+                     <children>
+                          <VBox alignment="CENTER" />
+                          <Label id="emailLabel" fx:id="usernameLabel" alignment="CENTER" contentDisplay="TOP" focusTraversable="false" prefHeight="23.0" prefWidth="156.0" style="-fx-text-fill: white;" styleClass="login_label" text="Username" textAlignment="CENTER" textFill="#141414">
+                              <font>
+                                  <Font name="Arial Bold" size="18.0" />
+                              </font>
+                          </Label>
+                     </children></VBox>
                </children></VBox>
-              <VBox alignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="3">
+              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
-                    <Label id="emailLabel" fx:id="usernameLabel" alignment="TOP_CENTER" contentDisplay="TOP" focusTraversable="false" prefHeight="23.0" prefWidth="156.0" style="-fx-text-fill: white;" styleClass="login_label" text="Username" textAlignment="CENTER" textFill="#141414">
-                        <font>
-                            <Font name="Arial Bold" size="18.0" />
-                        </font>
-                    </Label>
+                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                          <Label id="passwordLabel" fx:id="passwordLabel" alignment="CENTER" contentDisplay="TOP" prefHeight="23.0" prefWidth="154.0" style="-fx-text-fill: white;" styleClass="login_label" text="Password" textAlignment="CENTER">
+                              <font>
+                                  <Font name="Arial Bold" size="18.0" />
+                              </font>
+                          </Label>
+                     </children>
+                  </HBox>
                </children></VBox>
-              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-              <VBox alignment="CENTER" prefHeight="601.0" prefWidth="723.0" GridPane.columnIndex="3" GridPane.rowIndex="4">
+              <VBox alignment="CENTER" prefHeight="601.0" prefWidth="723.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <children>
                       <PasswordField fx:id="passwordField" style="-fx-border-color: BLACK;" styleClass="login_password_field" />
                </children></VBox>
-              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="6">
+              <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <children>
-                    <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUp" prefHeight="40.0" prefWidth="210.0" style="-fx-background-color: #5c5a5a; -fx-border-color: BLACK;" styleClass="login_button" text="Sign Up" textFill="WHITE">
+                    <Button fx:id="loginBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="214.0" style="-fx-background-color:#b470fa; -fx-border-color: BLACK;" styleClass="login_button" text="Login" textAlignment="CENTER" textFill="WHITE">
+                        <font>
+                            <Font name="System Bold" size="18.0" />
+                        </font>
+                    </Button>
+               </children></VBox>
+              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="6">
+               <children>
+                    <Button fx:id="signUpButton" mnemonicParsing="false" onAction="#signUp" prefHeight="40.0" prefWidth="215.0" style="-fx-background-color: #5c5a5a; -fx-border-color: BLACK;" styleClass="login_button" text="Sign Up" textFill="WHITE">
                         <font>
                             <Font name="System Bold" size="15.0" />
                         </font>
                     </Button>
                </children></HBox>
-              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
-               <children>
-                    <Label id="passwordLabel" fx:id="passwordLabel" alignment="CENTER" contentDisplay="TOP" prefHeight="23.0" prefWidth="154.0" style="-fx-text-fill: white;" styleClass="login_label" text="Password" textAlignment="CENTER">
-                        <font>
-                            <Font name="Arial Bold" size="18.0" />
-                        </font>
-                    </Label>
-               </children></HBox>
-                <TextField id="emailTextField" fx:id="usernameTextField" prefHeight="28.0" prefWidth="400.0" promptText="email_id@domain.edu" style="-fx-border-color: BLACK;" styleClass="login_text_field" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="5">
-               <children>
-                    <Button fx:id="loginBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="40.0" prefWidth="208.0" style="-fx-background-color:#b470fa; -fx-border-color: BLACK;" styleClass="login_button" text="Login" textAlignment="CENTER" textFill="WHITE">
-                        <font>
-                            <Font name="System Bold" size="18.0" />
-                        </font>
-                    </Button>
-               </children>
-            </HBox>
+                <TextField id="emailTextField" fx:id="usernameTextField" prefHeight="28.0" prefWidth="400.0" promptText="email_id@domain.edu" style="-fx-border-color: BLACK;" styleClass="login_text_field" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
           </children>
       </GridPane>
    </children>

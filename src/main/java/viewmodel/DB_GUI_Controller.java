@@ -26,6 +26,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Person;
 import service.MyLogger;
+import service.UserSession;
 
 import java.io.*;
 import java.net.URL;
@@ -48,6 +49,7 @@ public class DB_GUI_Controller implements Initializable {
     private TableColumn<Person, String> tv_fn, tv_ln, tv_department, tv_major, tv_email;
     private final DbConnectivityClass cnUtil = new DbConnectivityClass();
     private final ObservableList<Person> data = cnUtil.getData();
+    UserSession currentUserSession = UserSession.loadUserSession();
     @FXML
     private Button btnDelete;
     @FXML
@@ -139,6 +141,7 @@ public class DB_GUI_Controller implements Initializable {
                 // Update menu items (if applicable, for example)
                 updateMenuState(isSelected);
 
+
             });
 
             // Add listener to form fields to enable/disable the "Add" button
@@ -215,6 +218,7 @@ public class DB_GUI_Controller implements Initializable {
 
 
 
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -281,7 +285,7 @@ public class DB_GUI_Controller implements Initializable {
     protected void logOut(ActionEvent actionEvent) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/view/login.fxml"));
-            Scene scene = new Scene(root, 900, 600);
+            Scene scene = new Scene(root, 1100, 725);
             scene.getStylesheets().add(getClass().getResource("/css/lightTheme.css").getFile());
             Stage window = (Stage) menuBar.getScene().getWindow();
             window.setScene(scene);
@@ -354,7 +358,10 @@ public class DB_GUI_Controller implements Initializable {
     protected void showImage() {
         File file = (new FileChooser()).showOpenDialog(img_view.getScene().getWindow());
         if (file != null) {
-            img_view.setImage(new Image(file.toURI().toString()));
+            String fileUrl = file.toURI().toString();
+            imageURL.setText(fileUrl);
+            img_view.setImage(new Image(imageURL.getText()));
+            progressBar.setProgress(0);
             Task<Void> uploadTask = createUploadTask(file, progressBar);
             progressBar.progressProperty().bind(uploadTask.progressProperty());
             new Thread(uploadTask).start();
@@ -399,12 +406,14 @@ public class DB_GUI_Controller implements Initializable {
     @FXML
     protected void selectedItemTV(MouseEvent mouseEvent) {
         Person p = tv.getSelectionModel().getSelectedItem();
-        first_name.setText(p.getFirstName());
-        last_name.setText(p.getLastName());
-        department.setText(p.getDepartment());
-        majorComboBox.setValue(Major.valueOf((p.getMajor())));
-        email.setText(p.getEmail());
-        imageURL.setText(p.getImageURL());
+        if(p!=null) {
+            first_name.setText(p.getFirstName());
+            last_name.setText(p.getLastName());
+            department.setText(p.getDepartment());
+            majorComboBox.setValue(Major.valueOf((p.getMajor())));
+            email.setText(p.getEmail());
+            imageURL.setText(p.getImageURL());
+        }
     }
 
     public void lightTheme(ActionEvent actionEvent) {
@@ -547,5 +556,6 @@ public class DB_GUI_Controller implements Initializable {
             }
         }
     }
+
 
 }

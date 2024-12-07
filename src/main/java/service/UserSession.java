@@ -6,10 +6,9 @@ import java.util.prefs.Preferences;
 
 public class UserSession {
 
-    private static UserSession instance;
+    private static volatile UserSession instance;
 
     private String userName;
-
     private String password;
     private String privileges;
 
@@ -17,7 +16,7 @@ public class UserSession {
         this.userName = userName;
         this.password = password;
         this.privileges = privileges;
-        Preferences userPreferences = Preferences.userRoot().node(this.getClass().getName());
+        Preferences userPreferences = Preferences.userRoot();
         userPreferences.put("USERNAME", userName);
         userPreferences.put("PASSWORD", password);
         userPreferences.put("PRIVILEGES", privileges);
@@ -49,7 +48,7 @@ public class UserSession {
 
     // Method to load user session from Preferences
     public static UserSession loadUserSession() {
-        Preferences userPreferences = Preferences.userRoot().node(UserSession.class.getName());
+        Preferences userPreferences = Preferences.userRoot();
         String userName = userPreferences.get("USERNAME", null);
         String password = userPreferences.get("PASSWORD", null);
         String privileges = userPreferences.get("PRIVILEGES", "NONE");
@@ -59,28 +58,42 @@ public class UserSession {
         }
         return null;  // No saved session found
     }
+    public static void  saveUserSession(String userName, String password, String privileges) {
+        Preferences userPreferences = Preferences.userRoot();
+        userPreferences.put("USERNAME", userName);
+        userPreferences.put("PASSWORD", password);
+        userPreferences.put("PRIVILEGES", privileges);
+
+    }
 
     public String getUserName() {
-        return this.userName;
+        return userName;
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public String getPrivileges() {
-        return this.privileges;
+        return privileges;
     }
 
-    public void cleanUserSession() {
-        this.userName = "";// or null
-        this.password = "";
-        this.privileges = "";// or null
 
-        Preferences userPreferences = Preferences.userRoot().node(this.getClass().getName());
-        userPreferences.remove("USERNAME");
-        userPreferences.remove("PASSWORD");
-        userPreferences.remove("PRIVILEGES");
+    public static void cleanUserSession() {
+
+
+        Preferences userPreferences = Preferences.userRoot();
+        if(instance != null && instance.userName != null) {
+            userPreferences.remove("USERNAME");
+            userPreferences.remove("PASSWORD");
+            userPreferences.remove("PRIVILEGES");
+        }
+
+        instance.userName = null;
+        instance.privileges = null;
+        instance = null;
+
+
     }
 
     @Override

@@ -8,16 +8,24 @@ import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import service.UserSession;
 
+import java.util.prefs.Preferences;
 
 
 public class LoginController {
+    @FXML
+    private PasswordField passwordField;
+    @FXML
+    private TextField usernameTextField;
 
-    Image image = new Image(getClass().getResource("/images/profile.png").toExternalForm());
     @FXML
     private GridPane rootpane;
     public void initialize() {
@@ -42,22 +50,46 @@ public class LoginController {
 
     @FXML
     public void login(ActionEvent actionEvent) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/view/db_interface_gui.fxml"));
-            Scene scene = new Scene(root, 925 , 650);
-            scene.getStylesheets().add(getClass().getResource("/css/lightTheme.css").toExternalForm());
-            Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            window.setScene(scene);
-            window.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+        String enteredUsername = usernameTextField.getText();
+        String enteredPassword = passwordField.getText();
+
+        // Validate the credentials
+        if (validateCredentials(enteredUsername, enteredPassword)) {
+            // Proceed to next screen
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("/view/db_interface_gui.fxml"));
+                    Scene scene = new Scene(root, 925 , 650);
+                    scene.getStylesheets().add(getClass().getResource("/css/lightTheme.css").toExternalForm());
+                    Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    window.setScene(scene);
+                    window.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+        } else {
+            // Invalid credentials
+            showAlert(Alert.AlertType.ERROR, "Login Failed", "Invalid username or password. Please try again.");
         }
     }
 
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+    private boolean validateCredentials(String username, String password) {
+        UserSession userSession = UserSession.loadUserSession();
+
+        // Check if the session exists and credentials match
+        return userSession != null && username.equals(userSession.getUserName()) && password.equals(userSession.getPassword());
+    }
+    
     public void signUp(ActionEvent actionEvent) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/view/signUp.fxml"));
-            Scene scene = new Scene(root, 900, 600);
+            Scene scene = new Scene(root, 1100, 725);
             scene.getStylesheets().add(getClass().getResource("/css/lightTheme.css").toExternalForm());
             Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             window.setScene(scene);

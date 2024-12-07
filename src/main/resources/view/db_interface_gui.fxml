@@ -60,7 +60,7 @@
                                 <MenuItem mnemonicParsing="false" onAction="#darkTheme" styleClass="menu_items" text="DARK THEME" />
                             </items>
                         </Menu>
-                  <Menu mnemonicParsing="false" text="Export/Import CSV File">
+                  <Menu mnemonicParsing="false" text="CSV File">
                     <items>
                         <MenuItem fx:id="exportCSVFile" mnemonicParsing="false" onAction="#exportCSV" text="Export CSV file" />
                         <MenuItem fx:id="importCSVFile" mnemonicParsing="false" onAction="#importCSV" text="Import CSV file" />
