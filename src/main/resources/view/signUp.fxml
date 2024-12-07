@@ -65,7 +65,10 @@
          <children>
               <VBox fx:id="username" alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="usernameField" prefHeight="26.0" prefWidth="286.0" />
+                  <TextField fx:id="usernameField" prefHeight="26.0" prefWidth="286.0">
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font></TextField>
                </children>
             </VBox>
          </children></VBox>
@@ -85,7 +88,10 @@
          <children>
               <VBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="passwordField" alignment="CENTER" />
+                  <TextField fx:id="passwordField">
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font></TextField>
                </children>
             </VBox>
          </children></VBox>
@@ -129,7 +135,10 @@
         </VBox>
         <VBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="7">
          <children>
-            <TextField fx:id="confirmPasswordField" alignment="CENTER" prefHeight="26.0" prefWidth="324.0" />
+            <TextField fx:id="confirmPasswordField" prefHeight="26.0" prefWidth="324.0">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></TextField>
          </children>
       </VBox>
     </children>

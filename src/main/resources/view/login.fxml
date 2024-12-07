@@ -74,7 +74,10 @@
                </children></VBox>
               <VBox alignment="CENTER" prefHeight="601.0" prefWidth="723.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
                <children>
-                      <PasswordField fx:id="passwordField" style="-fx-border-color: BLACK;" styleClass="login_password_field" />
+                      <PasswordField fx:id="passwordField" style="-fx-border-color: BLACK;" styleClass="login_password_field">
+                     <font>
+                        <Font name="Arial" size="14.0" />
+                     </font></PasswordField>
                </children></VBox>
               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2" GridPane.rowIndex="5">
                <children>
@@ -92,7 +95,10 @@
                         </font>
                     </Button>
                </children></HBox>
-                <TextField id="emailTextField" fx:id="usernameTextField" prefHeight="28.0" prefWidth="400.0" promptText="email_id@domain.edu" style="-fx-border-color: BLACK;" styleClass="login_text_field" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                <TextField id="emailTextField" fx:id="usernameTextField" prefHeight="28.0" prefWidth="400.0" promptText="email_id@domain.edu" style="-fx-border-color: BLACK;" styleClass="login_text_field" GridPane.columnIndex="2" GridPane.rowIndex="3">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></TextField>
                 <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
           </children>
       </GridPane>

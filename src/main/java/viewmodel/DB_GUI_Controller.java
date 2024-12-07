@@ -356,6 +356,7 @@ public class DB_GUI_Controller implements Initializable {
 
     @FXML
     protected void showImage() {
+        img_view.setImage(new Image(String.valueOf(imageURL)));
         File file = (new FileChooser()).showOpenDialog(img_view.getScene().getWindow());
         if (file != null) {
             String fileUrl = file.toURI().toString();
@@ -417,6 +418,7 @@ public class DB_GUI_Controller implements Initializable {
     }
 
     public void lightTheme(ActionEvent actionEvent) {
+//        change the theme to light theme
         try {
             Scene scene = menuBar.getScene();
             Stage stage = (Stage) scene.getWindow();
@@ -432,6 +434,7 @@ public class DB_GUI_Controller implements Initializable {
     }
 
     public void darkTheme(ActionEvent actionEvent) {
+//        change the theme to dark theme
         try {
             Stage stage = (Stage) menuBar.getScene().getWindow();
             Scene scene = stage.getScene();
